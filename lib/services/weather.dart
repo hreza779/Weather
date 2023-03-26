@@ -1,4 +1,26 @@
+import 'package:weather/services/networking.dart';
+import 'package:weather/services/location.dart';
+
+const apiKey = '4ad92b6452d93944c955664de2837049';
+const openWeatherURL = 'https://api.openweathermap.org/data/2.5/weather';
 class WeatherModel {
+
+  Future<dynamic> getLocationWeather() async{
+    Location location = Location();
+    await location.getCurrentLocation();
+
+    double longitude = location.longitude;
+    double latitude = location.latitude;
+
+    //  String url ='https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$apiKey';
+    String url = 'https://hom.academy/weather.php';
+    NetworkHelper networkHelper = NetworkHelper(url: url);
+
+    var data = await networkHelper.getData();
+
+    return data;
+
+  }
   String getWeatherIcon(int condition) {
     if (condition < 300) {
       return '🌩';
